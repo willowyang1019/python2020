@@ -1,0 +1,165 @@
+#Willow Yang The Chaotic Cashier
+
+#the first way to change
+def greedy1(total): #make change using one coin at a time
+                q=0
+                d=0
+                n=0
+                p=0
+                while total>=25:
+                        total-=25
+                        q+=1
+                while total>=10:
+                        total-=10
+                        d+=1
+                while total>=5:
+                        total-=5
+                        n+=1
+                if total<5:
+                    p=total
+                Printcoins1(q,d,n,p)
+def Printcoins1(q,d,n,p): #print the output
+    total=25*q+10*d+5*n+p #reconstruct the 'total' value from the four types of coins
+    print('For',total,'cents change, I give')
+    print(q,'quarters')
+    print(d,'dimes')
+    print(n,'nickels')
+    print(p,'pennies')    
+greedy1(87)
+
+#the second way to change
+def greedy2(total): #make the change using divmod method
+    q=total//25
+    remain_q=total%25
+    d=remain_q//10
+    remain_d=remain_q%10
+    n=remain_d//5
+    remain_n=remain_d%5
+    p=remain_n
+    Printcoins2(q,d,n,p)
+def Printcoins2(q,d,n,p): #use if statement to prevent zero output
+    total=25*q+10*d+5*n+p #reconstruct the 'total' value from the four types of coins
+    print('For',total,'cents change, I give')
+    if q>0:
+        print(q,'quarters')
+    if d>0:
+        print(d,'dimes')
+    if n>0:
+        print(n,'nickels')
+    if p>0:
+        print(p,'pennies')    
+greedy2(87)
+
+#the third way to change
+import random
+
+def guesscoin(): #the function used to randomly pick coins
+    coin = random.randint(1,4)
+    if coin==1:
+        return 25
+    if coin==2:
+        return 10
+    if coin==3:
+        return 5
+    if coin==4:
+        return 1
+    
+def chaos(total): #the main function
+    q=0
+    d=0
+    n=0
+    p=0
+    while total>0:
+        x=guesscoin()
+        while total<x: #when the remainder of total is less than the coin we randomly chose, choose again until we get the coin less than the remainder
+            x=guesscoin()
+        if total==1: #when total is 1, we could only use one penny to make the change, so we can 'break' the function with one penny added
+            p+=1
+            break
+        total-=x
+        if x==25:
+            q+=1
+        elif x==10:
+            d+=1
+        elif x==5:
+            n+=1
+        elif x==1:
+            p+=1        
+    Printcoins3(q,d,n,p)
+    Printcoins4(q,d,n,p)
+
+def Printcoins3(q,d,n,p): #use if statement to prevent zero output and control the singular
+    total=25*q+10*d+5*n+p #reconstruct the 'total' value from the four types of coins
+    if total==1:
+        print('For',total,'cent change, I give')
+    else:
+        print('For',total,'cents change, I give')
+    if q>0:
+        if q==1:
+            print(q,'quarter')
+        else:
+            print(q,'quarters')        
+    if d>0:
+        if d==1:
+            print(d,'dime')
+        else:
+            print(d,'dimes')
+    if n>0:
+        if n==1:
+            print(n,'nickel')
+        else:
+            print(n,'nickels')
+    if p>0:
+        if p==1:
+            print(p,'penny')
+        else:
+            print(p,'pennies')
+            
+#to earn extra credits
+def Printcoins4(q,d,n,p): #print with 'and'
+    total=25*q+10*d+5*n+p #reconstruct the 'total' value from the four types of coins
+    if total==1:
+        print('For',total,'cent change, I give')
+    else:
+        print('For',total,'cents change, I give')
+    if q>0:
+        if q==1:
+            print(q,'quarter')
+        else:
+            print(q,'quarters')      
+    if d>0:
+        if q>0 and p==0 and n==0:
+            if d==1:
+                print('and',d,'dime')
+            else:
+                print('and',d,'dime')
+        else:
+            if d==1:
+                print(d,'dime')
+            else:
+                print(d,'dimes')
+    if n>0:
+        if (q>0 or d>0) and p==0:
+            if n==1:
+                print('and',n,'nickel')
+            else:
+                print('and',n,'nickels')
+        else:
+            if n==1:
+                print(n,'nickel')
+            else:
+                print(n,'nickels')
+    if p>0:
+        if q>0 or d>0 or n>0:
+            if p==1:
+                print('and',p,'penny')
+            else:
+                print('and',p,'pennies')
+        else:
+            if p==1:
+                print(p,'pennies')
+            else:
+                print(p,'pennies')
+            
+chaos(35)
+
